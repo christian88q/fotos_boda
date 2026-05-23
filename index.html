@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📸 Álbum 1 Compartido del Evento 📸</title>
+    <title>📸 Álbum Compartido del Evento 📸</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -65,7 +65,6 @@
         
         h2 { font-size: 18px; margin-bottom: 15px; color: var(--text); }
 
-        /* 📁 CARPETAS MÁS COMPACTAS */
         .guest-folder {
             width: 100%;
             max-width: 900px;
@@ -89,10 +88,9 @@
             gap: 6px;
         }
 
-        /* 📸 REJILLA MÁS PEQUEÑA (VISTA GENERAL) */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Fotos más pequeñas para ver más a la vez */
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 10px;
             width: 100%;
         }
@@ -106,7 +104,7 @@
         }
         .photo-card img {
             width: 100%;
-            height: 130px; /* Altura reducida estilo cuadrícula */
+            height: 130px;
             object-fit: cover;
             cursor: pointer;
             transition: transform 0.2s;
@@ -115,33 +113,34 @@
 
         .photo-info {
             padding: 6px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
             background: #ffffff;
         }
         .photo-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 5px;
         }
-        .like-btn {
+        .like-btn, .action-download-btn {
             background: none;
-            color: #ff7675;
             border: 1px solid #ff7675;
-            padding: 2px 8px;
-            width: auto;
+            padding: 4px 0;
+            flex: 1;
             font-size: 11px;
             border-radius: 15px;
             cursor: pointer;
-        }
-        .like-btn:hover { background: #ffeaa7; }
-        .download-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 11px;
+            text-align: center;
             font-weight: bold;
         }
+        .like-btn { color: #ff7675; }
+        .like-btn:hover { background: #ffeaa7; }
+        
+        .action-download-btn {
+            color: var(--primary);
+            border-color: var(--primary);
+            text-decoration: none;
+        }
+        .action-download-btn:hover { background: #e0dcfc; }
 
         #main-container {
             width: 100%;
@@ -150,7 +149,7 @@
             align-items: center;
         }
 
-        /* 🔍 ESTILOS DEL LIGHTBOX (VISUALIZADOR EN GRANDE) */
+        /* LIGHTBOX OPTIMIZADO CON BOTÓN DE CERRAR */
         .lightbox {
             display: none;
             position: fixed;
@@ -162,15 +161,31 @@
             background-color: rgba(0, 0, 0, 0.9);
             align-items: center;
             justify-content: center;
-            cursor: zoom-out;
         }
         .lightbox img {
             max-width: 90%;
-            max-height: 85%;
-            border-radius: 4px;
+            max-height: 80%;
+            border-radius: 6px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            cursor: default;
         }
+        .close-lightbox-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 24px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+        }
+        .close-lightbox-btn:hover { background: rgba(255, 255, 255, 0.4); }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -179,7 +194,7 @@
 <body>
 
     <header>
-        <h1>📸 Álbum del Evento</h1>
+        <h1>📸 Álbum 1 del Evento</h1>
         <p>Comparte tus fotos con todos en tiempo real PAO & CHRIS</p>
     </header>
 
@@ -192,8 +207,9 @@
     <h2>Muro por Invitados</h2>
     <div id="main-container"></div>
 
-    <div id="lightbox" class="lightbox" onclick="cerrarImagen()">
-        <img id="lightbox-img" src="" alt="Visualización en grande" onclick="event.stopPropagation()">
+    <div id="lightbox" class="lightbox">
+        <button class="close-lightbox-btn" onclick="cerrarImagen()">❌</button>
+        <img id="lightbox-img" src="" alt="Visualización en grande">
     </div>
 
     <script>
@@ -292,8 +308,8 @@
                         <img src="${foto.url_foto}" alt="Foto de ${invitado}" onclick="verImagenGrande('${foto.url_foto}')">
                         <div class="photo-info">
                             <div class="photo-actions">
-                                <button class="like-btn" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
-                                <a href="${foto.url_foto}" target="_blank" download="foto_${invitado}.jpg" class="download-link">⬇️ Guardar</a>
+                                <button class="like-btn" id="like-btn-${foto.id}" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
+                                <a href="${foto.url_foto}" target="_blank" download="foto_${invitado}.jpg" class="action-download-btn">📥 Guardar</a>
                             </div>
                         </div>
                     `;
@@ -303,17 +319,22 @@
         }
 
         async function darLike(id, currentLikes) {
-            const { error } = await _supabase
-                .from('galeria_fotos')
-                .update({ likes: currentLikes + 1 })
-                .eq('id', id);
-
-            if (!error) {
-                cargarFotos(); 
+            const nuevoTotal = currentLikes + 1;
+            
+            // Actualización visual inmediata en la pantalla para evitar saltos
+            const botonLike = document.getElementById(`like-btn-${id}`);
+            if (botonLike) {
+                botonLike.innerText = `❤️ ${nuevoTotal}`;
+                botonLike.onclick = function() { darLike(id, nuevoTotal); };
             }
+
+            // Guardado silencioso en la base de datos
+            await _supabase
+                .from('galeria_fotos')
+                .update({ likes: nuevoTotal })
+                .eq('id', id);
         }
 
-        // 👁️ FUNCIONES PARA VER EN GRANDE
         function verImagenGrande(url) {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
@@ -322,7 +343,7 @@
         }
 
         function cerrarImagen() {
-            document.getElementById('lightbox').style.style.display = 'none';
+            document.getElementById('lightbox').style.display = 'none';
         }
 
         cargarFotos();
