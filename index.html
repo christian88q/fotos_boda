@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📸 Álbum Compartido del Evento 📸</title>
+    <title>📸 Álbum 1 Compartido del Evento 📸</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -16,32 +16,37 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
+        header h1 { font-size: 24px; margin-bottom: 5px; }
+        header p { font-size: 14px; margin-top: 0; color: #636e72; }
+
         .upload-section {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 30px;
+            max-width: 360px;
+            margin-bottom: 20px;
             box-sizing: border-box;
+            text-align: center;
         }
+        .upload-section h3 { margin-top: 0; margin-bottom: 10px; font-size: 16px; }
         input[type="text"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
             border: 1px solid #dfe6e9;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
             box-sizing: border-box;
         }
         button {
@@ -49,64 +54,71 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.3s;
         }
         button:hover { background-color: #5b4cc4; }
         
-        /* Contenedor de Carpetas de Invitados */
+        h2 { font-size: 18px; margin-bottom: 15px; color: var(--text); }
+
+        /* 📁 CARPETAS MÁS COMPACTAS */
         .guest-folder {
             width: 100%;
-            max-width: 1000px;
+            max-width: 900px;
             background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             box-sizing: border-box;
         }
         .folder-title {
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             margin-top: 0;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f1f2f6;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #f1f2f6;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        /* Galería estilo Instagram interna por carpeta */
+        /* 📸 REJILLA MÁS PEQUEÑA (VISTA GENERAL) */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Fotos más pequeñas para ver más a la vez */
+            gap: 10px;
             width: 100%;
         }
         .photo-card {
             background: var(--bg);
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
         }
         .photo-card img {
             width: 100%;
-            height: 200px;
+            height: 130px; /* Altura reducida estilo cuadrícula */
             object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+        .photo-card img:hover { transform: scale(1.02); }
+
         .photo-info {
-            padding: 10px;
+            padding: 6px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 5px;
+            background: #ffffff;
         }
         .photo-actions {
             display: flex;
@@ -117,23 +129,47 @@
             background: none;
             color: #ff7675;
             border: 1px solid #ff7675;
-            padding: 3px 10px;
+            padding: 2px 8px;
             width: auto;
-            font-size: 12px;
-            border-radius: 20px;
+            font-size: 11px;
+            border-radius: 15px;
+            cursor: pointer;
         }
-        .like-btn:hover { background: #ffeaa7; color: #ff7675; }
+        .like-btn:hover { background: #ffeaa7; }
         .download-link {
             color: var(--primary);
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
         }
+
         #main-container {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        /* 🔍 ESTILOS DEL LIGHTBOX (VISUALIZADOR EN GRANDE) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            cursor: default;
         }
     </style>
 
@@ -144,7 +180,7 @@
 
     <header>
         <h1>📸 Álbum del Evento</h1>
-        <p>Comparte tus fotos con todos en tiempo real PAO</p>
+        <p>Comparte tus fotos con todos en tiempo real PAO & CHRIS</p>
     </header>
 
     <div class="upload-section">
@@ -156,17 +192,18 @@
     <h2>Muro por Invitados</h2>
     <div id="main-container"></div>
 
+    <div id="lightbox" class="lightbox" onclick="cerrarImagen()">
+        <img id="lightbox-img" src="" alt="Visualización en grande" onclick="event.stopPropagation()">
+    </div>
+
     <script>
-        // CONFIGURACIÓN DE TUS CREDENCIALES
         const CLOUDINARY_CLOUD_NAME = "donulclfh";
         const CLOUDINARY_PRESET = "wqekwrpw";
         const SUPABASE_URL = "https://xpfchmrzvuaoxcaubkuw.supabase.co";
         const SUPABASE_KEY = "sb_publishable_SbpVjsPTcT8KRlQloCl0ZQ_1g2y5Fqt";
 
-        // Inicializar Supabase
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Configurar el Widget de Cloudinary para Subida Múltiple
         const myWidget = cloudinary.createUploadWidget({
             cloudName: CLOUDINARY_CLOUD_NAME, 
             uploadPreset: CLOUDINARY_PRESET,
@@ -174,11 +211,9 @@
             multiple: true, 
             maxFiles: 10     
         }, async (error, result) => {
-            
             if (!error && result && result.event === "queues-end") { 
                 const guestName = document.getElementById('guest-name').value.trim() || "Invitado Anónimo";
                 
-                // Extraer el paquete de imágenes subidas
                 const fotosSubidas = result.info.files.map(file => {
                     return {
                         nombre_invitado: guestName,
@@ -186,14 +221,12 @@
                     };
                 });
 
-                // Guardar bloque completo en Supabase
                 const { error: dbError } = await _supabase
                     .from('galeria_fotos')
                     .insert(fotosSubidas); 
                 
                 if (dbError) {
                     alert("Error en Base de Datos: " + dbError.message);
-                    console.error("DETALLE DEL ERROR:", dbError);
                 } else {
                     alert("¡Tus fotos se subieron con éxito! 🎉");
                     cargarFotos(); 
@@ -201,7 +234,6 @@
             }
         });
 
-        // Evento al presionar el botón de subir foto
         document.getElementById("upload-btn").addEventListener("click", function() {
             const nameInput = document.getElementById('guest-name').value.trim();
             if(!nameInput) {
@@ -211,7 +243,6 @@
             myWidget.open(); 
         }, false);
 
-        // Función para cargar, agrupar por invitados y mostrar las fotos
         async function cargarFotos() {
             const mainContainer = document.getElementById('main-container');
             mainContainer.innerHTML = "Cargando galería organizada...";
@@ -223,7 +254,6 @@
 
             if (error) {
                 mainContainer.innerHTML = "Error al cargar las fotos.";
-                console.error(error);
                 return;
             }
 
@@ -232,11 +262,9 @@
                 return;
             }
 
-            mainContainer.innerHTML = ""; // Limpiar contenedor principal
+            mainContainer.innerHTML = ""; 
 
-            // 📂 ALGORITMO DE AGRUPACIÓN (Creación de Carpetas Dinámicas)
             const fotosAgrupadas = {};
-            
             fotos.forEach(foto => {
                 const autor = foto.nombre_invitado || "Invitado Anónimo";
                 if (!fotosAgrupadas[autor]) {
@@ -245,30 +273,27 @@
                 fotosAgrupadas[autor].push(foto);
             });
 
-            // Dibujar cada "Carpeta de Invitado" en la pantalla
             for (const invitado in fotosAgrupadas) {
                 const folderDiv = document.createElement('div');
                 folderDiv.className = 'guest-folder';
                 
-                // Título de la carpeta con icono y cantidad de fotos subidas
                 folderDiv.innerHTML = `
                     <div class="folder-title">📂 Fotos de ${invitado} (${fotosAgrupadas[invitado].length})</div>
-                    <div class="gallery" id="gallery-${invitado.replace(/\s+/g, '-')}"></div>
+                    <div class="gallery"></div>
                 `;
                 mainContainer.appendChild(folderDiv);
 
-                // Insertar las fotos correspondientes dentro de esta carpeta
                 const galleryDiv = folderDiv.querySelector('.gallery');
                 
                 fotosAgrupadas[invitado].forEach(foto => {
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     card.innerHTML = `
-                        <img src="${foto.url_foto}" alt="Foto de ${invitado}">
+                        <img src="${foto.url_foto}" alt="Foto de ${invitado}" onclick="verImagenGrande('${foto.url_foto}')">
                         <div class="photo-info">
                             <div class="photo-actions">
                                 <button class="like-btn" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
-                                <a href="${foto.url_foto}" target="_blank" download="foto_evento.jpg" class="download-link">⬇️ Guardar</a>
+                                <a href="${foto.url_foto}" target="_blank" download="foto_${invitado}.jpg" class="download-link">⬇️ Guardar</a>
                             </div>
                         </div>
                     `;
@@ -277,7 +302,6 @@
             }
         }
 
-        // Función para manejar los Likes
         async function darLike(id, currentLikes) {
             const { error } = await _supabase
                 .from('galeria_fotos')
@@ -289,7 +313,18 @@
             }
         }
 
-        // Inicializar la carga
+        // 👁️ FUNCIONES PARA VER EN GRANDE
+        function verImagenGrande(url) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = url;
+            lightbox.style.display = 'flex';
+        }
+
+        function cerrarImagen() {
+            document.getElementById('lightbox').style.style.display = 'none';
+        }
+
         cargarFotos();
     </script>
 </body>
