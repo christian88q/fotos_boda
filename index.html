@@ -50,7 +50,6 @@
             box-sizing: border-box;
         }
         
-        /* Contenedor del input oculto */
         .file-input-wrapper {
             position: relative;
             overflow: hidden;
@@ -78,6 +77,7 @@
             font-weight: bold;
             display: block;
             box-sizing: border-box;
+            text-align: center;
             transition: background 0.3s;
         }
         button:hover, .btn-label:hover { background-color: #5b4cc4; }
@@ -157,7 +157,6 @@
         .action-download-btn {
             color: var(--primary);
             border-color: var(--primary);
-            text-decoration: none;
         }
         .action-download-btn:hover { background: #e0dcfc; }
 
@@ -209,7 +208,7 @@
 <body>
 
     <header>
-        <h1>📸 Álbum del Evento</h1>
+        <h1>📸 2Álbum del Evento</h1>
         <p>Comparte tus fotos con todos en tiempo real PAO & CHRIS</p>
     </header>
 
@@ -239,14 +238,13 @@
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Escuchar el cambio del input de archivos (cuando el usuario da "OK" en su cel)
         document.getElementById('direct-file-input').addEventListener('change', async function(e) {
             const guestName = document.getElementById('guest-name').value.trim();
             const files = e.target.files;
 
             if (!guestName) {
                 alert("Por favor, ingresa tu nombre antes de seleccionar las fotos.");
-                this.value = ""; // Resetear archivos
+                this.value = ""; 
                 return;
             }
 
@@ -259,7 +257,6 @@
 
             const fotosSubidas = [];
 
-            // Subir cada archivo directamente a Cloudinary vía API silenciosa
             for (let i = 0; i < files.length; i++) {
                 const formData = new FormData();
                 formData.append('file', files[i]);
@@ -279,11 +276,10 @@
                         });
                     }
                 } catch (err) {
-                    console.error("Error subiendo archivo a Cloudinary:", err);
+                    console.error("Error subiendo archivo:", err);
                 }
             }
 
-            // Si se subieron fotos con éxito, guardarlas en Supabase
             if (fotosSubidas.length > 0) {
                 const { error: dbError } = await _supabase
                     .from('galeria_fotos')
@@ -295,10 +291,9 @@
                     alert("¡Tus fotos se subieron automáticamente! 🎉");
                 }
             } else {
-                alert("No se pudo subir ninguna foto. Intenta de nuevo.");
+                alert("No se pudo subir ninguna foto.");
             }
 
-            // Restaurar botón y limpiar input
             labelBtn.innerText = originalText;
             labelBtn.style.backgroundColor = "var(--primary)";
             this.value = ""; 
@@ -355,7 +350,7 @@
                         <div class="photo-info">
                             <div class="photo-actions">
                                 <button class="like-btn" id="like-btn-${foto.id}" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
-                                <a href="${foto.url_foto}" target="_blank" download="foto_${invitado}.jpg" class="action-download-btn">📥 Guardar</a>
+                                <button class="action-download-btn" onclick="descargarFotoDirecta('${foto.url_foto}', 'foto_${invitado}')">📥 Guardar</button>
                             </div>
                         </div>
                     `;
@@ -372,6 +367,27 @@
                 botonLike.onclick = function() { darLike(id, nuevoTotal); };
             }
             await _supabase.from('galeria_fotos').update({ likes: nuevoTotal }).eq('id', id);
+        }
+
+        // 📥 NUEVA FUNCIÓN: Descarga nativa real sin abrir pestañas nuevas
+        async function descargarFotoDirecta(url, nombreArchivo) {
+            try {
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `${nombreArchivo}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                // Si el navegador bloquea la conversión, abre el archivo normalmente como respaldo
+                window.open(url, '_blank');
+            }
         }
 
         function verImagenGrande(url) {
