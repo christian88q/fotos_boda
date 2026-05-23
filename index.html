@@ -140,17 +140,41 @@
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // Configurar el Widget de Cloudinary
-        const myWidget = cloudinary.createUploadWidget({
-            cloudName: CLOUDINARY_CLOUD_NAME, 
-            uploadPreset: CLOUDINARY_PRESET,
-            sources: ['local', 'camera'], // Permite usar la cámara del celular o la galería
-            multiple: false,
-            cropping: false,
-            clientAllowedFormats: ["png", "jpg", "jpeg", "webp"]
-        }, async (error, result) => {
-            if (!error && result && result.event === "success") { 
-                const imageUrl = result.info.secure_url;
-                const guestName = document.getElementById('guest-name').value || "Invitado Anónimo";
+        // Configurar Widget de Cloudinary para Subida Múltiple
+const myWidget = cloudinary.createUploadWidget({
+    cloudName: CLOUDINARY_CLOUD_NAME, 
+    uploadPreset: CLOUDINARY_PRESET,
+    sources: ['local', 'camera'],
+    multiple: true, // 👈 CAMBIO 1: Ahora permite seleccionar más de una foto
+    maxFiles: 10     // 👈 Puedes cambiar este número al límite que quieras por tanda
+}, async (error, result) => {
+    
+    // CAMBIO 2: Cuando todas las fotos se hayan subido con éxito
+    if (!error && result && result.event === "queues-end") { 
+        const guestName = document.getElementById('guest-name').value.trim() || "Invitado Anónimo";
+        
+        // Recorremos todas las fotos que el invitado subió en esta tanda
+        const fotosSubidas = result.info.files.map(file => {
+            return {
+                nombre_invitado: guestName,
+                url_foto: file.uploadInfo.secure_url
+            };
+        });
+
+        // Guardamos todas las fotos juntas en Supabase en un solo viaje
+        const { error: dbError } = await _supabase
+            .from('galeria_fotos')
+            .insert(fotosSubidas); 
+        
+        if (dbError) {
+            alert("Error en Base de Datos: " + dbError.message);
+            console.error("DETALLE DEL ERROR:", dbError);
+        } else {
+            alert("¡Tus fotos se subieron con éxito! 🎉");
+            cargarFotos(); 
+        }
+    }
+});
                 
                 // Guardar los datos en Supabase
                 const { data, error: dbError } = await _supabase
