@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Álbum Compartido del Evento</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #5b4cc4; }
+        
+        /* Galería estilo Instagram */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .photo-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .photo-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .photo-author { font-weight: bold; font-size: 14px; }
+        .photo-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .like-btn {
+            background: none;
+            color: #ff7675;
+            border: 1px solid #ff7675;
+            padding: 5px 12px;
+            width: auto;
+            font-size: 14px;
+            border-radius: 20px;
+        }
+        .like-btn:hover { background: #ffeaa7; color: #ff7675; }
+        .download-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <header>
+        <h1>📸 Álbum del Evento</h1>
+        <p>Comparte tus fotos con todos en tiempo real</p>
+    </header>
+
+    <div class="upload-section">
+        <h3>Subir una Foto</h3>
+        <input type="text" id="guest-name" placeholder="Escribe tu nombre aquí..." required>
+        <button id="upload-btn">📷 Tomar / Seleccionar Foto</button>
+    </div>
+
+    <h2>Muro de Fotos</h2>
+    <div class="gallery" id="gallery">
+        </div>
+
+    <script>
+        // CONFIGURACIÓN: REEMPLAZA ESTOS DATOS CON LOS TUYOS
+        const CLOUDINARY_CLOUD_NAME = "donulclfh";
+        const CLOUDINARY_PRESET = "wqekwrpw";
+        const SUPABASE_URL = "https://xpfchmrzvuaoxcaubkuw.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_SbpVjsPTcT8KRlQloCl0ZQ_1g2y5Fqt";
+
+        // Inicializar Supabase
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Configurar el Widget de Cloudinary
+        const myWidget = cloudinary.createUploadWidget({
+            cloudName: CLOUDINARY_CLOUD_NAME, 
+            uploadPreset: CLOUDINARY_PRESET,
+            sources: ['local', 'camera'], // Permite usar la cámara del celular o la galería
+            multiple: false,
+            cropping: false,
+            clientAllowedFormats: ["png", "jpg", "jpeg", "webp"]
+        }, async (error, result) => {
+            if (!error && result && result.event === "success") { 
+                const imageUrl = result.info.secure_url;
+                const guestName = document.getElementById('guest-name').value || "Invitado Anónimo";
+                
+                // Guardar los datos en Supabase
+                const { data, error: dbError } = await _supabase
+                    .from('galeria_fotos')
+                    .insert([{ nombre_invitado: guestName, url_foto: imageUrl }]);
+                
+               if (dbError) {
+    alert("Error en Base de Datos: " + dbError.message);
+    console.error("DETALLE DEL ERROR:", dbError);
+                } else {
+                    cargarFotos(); // Recargar la galería inmediatamente
+                }
+            }
+        });
+
+        // Evento al presionar el botón de subir foto
+        document.getElementById("upload-btn").addEventListener("click", function() {
+            const nameInput = document.getElementById('guest-name').value.trim();
+            if(!nameInput) {
+                alert("Por favor, ingresa tu nombre antes de subir una foto.");
+                return;
+            }
+            myWidget.open(); // Abre la interfaz para tomar la foto
+        }, false);
+
+        // Función para cargar y mostrar las fotos desde Supabase
+        async function cargarFotos() {
+            const galleryDiv = document.getElementById('gallery');
+            galleryDiv.innerHTML = "Cargando fotos...";
+
+            // Traer las fotos ordenadas por la más reciente
+            const { data: fotos, error } = await _supabase
+                .from('galeria_fotos')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                galleryDiv.innerHTML = "Error al cargar las fotos.";
+                console.error(error);
+                return;
+            }
+
+            if(fotos.length === 0) {
+                galleryDiv.innerHTML = "<p>Aún no hay fotos. ¡Sé el primero en subir una!</p>";
+                return;
+            }
+
+            galleryDiv.innerHTML = ""; // Limpiar contenedor
+            
+            fotos.forEach(foto => {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.innerHTML = `
+                    <img src="${foto.url_foto}" alt="Foto del evento">
+                    <div class="photo-info">
+                        <span><b>${foto.nombre_invitado}</b></span>
+                        <div class="photo-actions">
+                            <button class="like-btn" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
+                            <a href="${foto.url_foto}" target="_blank" download="foto_evento.jpg" class="download-link">⬇️ Descargar</a>
+                        </div>
+                    </div>
+                `;
+                galleryDiv.appendChild(card);
+            });
+        }
+
+        // Función para manejar los Likes
+        async function darLike(id, currentLikes) {
+            const { error } = await _supabase
+                .from('galeria_fotos')
+                .update({ likes: currentLikes + 1 })
+                .eq('id', id);
+
+            if (!error) {
+                cargarFotos(); // Recargar la lista para ver el like reflejado
+            }
+        }
+
+        // Cargar fotos al abrir la página por primera vez
+        cargarFotos();
+    </script>
+</body>
+</html>
