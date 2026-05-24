@@ -6,9 +6,9 @@
     <title>📸 PAO & CHRIS Wedding Album 📸</title>
     <style>
         :root {
-            --primary: #e61e6c; /* Color rosa/fucsia estilo Kululu */
+            --primary: #e61e6c; 
             --bg: #111111;
-            --card-bg: rgba(255, 255, 255, 0.12); /* Transparencia Kululu */
+            --card-bg: rgba(255, 255, 255, 0.12); 
             --text: #ffffff;
         }
         
@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* 🎆 CARRUSEL DE FONDO DINÁMICO (HERMETICAMENTE DETRÁS) */
+        /* 🎆 CARRUSEL DE FONDO DINÁMICO */
         .bg-carousel {
             position: fixed;
             top: 0;
@@ -43,10 +43,10 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out; /* Transición suave fade */
+            transition: opacity 1.2s ease-in-out;
             z-index: -2;
         }
-        .bg-slide.active { opacity: 0.55; } /* Oscurece sutilmente el fondo para leer texto */
+        .bg-slide.active { opacity: 0.55; }
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -71,7 +71,6 @@
             text-align: center;
         }
 
-        /* FOTO DE PERFIL CIRCULAR */
         .profile-avatar {
             width: 140px;
             height: 140px;
@@ -82,7 +81,6 @@
             margin-bottom: 15px;
         }
 
-        /* LOGOTIPO PEQUEÑO */
         .mini-logo {
             max-width: 90px;
             height: auto;
@@ -103,7 +101,6 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
-        /* SECCIÓN DE SUBIDA TRANSPARENTE */
         .upload-section {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
@@ -163,7 +160,6 @@
         }
         .btn-label:active { transform: scale(0.98); }
 
-        /* CONTADOR TOTAL ESTILO KULULU */
         .photo-counter {
             font-size: 14px;
             font-weight: 600;
@@ -183,13 +179,16 @@
             cursor: pointer;
         }
 
-        /* 📁 SECCIÓN DE MURO (ABAJO DEL TODO) */
+        /* 📁 SECCIÓN DE MURO (MENOS TRANSPARENTE) */
         .muro-section {
             width: 100%;
             max-width: 900px;
-            padding: 20px 15px;
+            padding: 25px 15px;
             box-sizing: border-box;
-            background: #111111;
+            background: rgba(17, 17, 17, 0.85); /* Opacidad reducida para menos transparencia */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
         .muro-section h2 {
             font-size: 20px;
@@ -198,25 +197,27 @@
             font-weight: 600;
         }
 
-        /* CARPETAS DIFERENCIADAS CON ESTILO MÁS FUERTE */
+        /* CARPETAS MUCHO MÁS SUTILES Y TRANSLÚCIDAS */
         .guest-folder {
             width: 100%;
-            background: #1e1e1e; /* Fondo oscuro sólido para contrastar */
-            border-radius: 16px;
+            background: rgba(247, 241, 227, 0.12); /* Tono marfil pálido con intensidad ultra baja */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 14px;
             padding: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
             box-sizing: border-box;
-            border-left: 4px solid var(--primary); /* Línea de color distintiva */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 3px solid var(--primary);
         }
         .folder-title {
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 600;
             margin-top: 0;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            color: #ffffff;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255, 255, 255, 0.9);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -231,12 +232,12 @@
             width: 100%;
         }
         .photo-card {
-            background: #262626;
-            border-radius: 10px;
+            background: #222222;
+            border-radius: 8px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
         .photo-card img {
             width: 100%;
@@ -246,8 +247,8 @@
         }
 
         .photo-info {
-            padding: 8px;
-            background: #262626;
+            padding: 6px;
+            background: #222222;
         }
         .photo-actions {
             display: flex;
@@ -256,21 +257,21 @@
             gap: 6px;
         }
         .like-btn, .action-download-btn {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
-            padding: 6px 0;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 0;
             flex: 1;
-            font-size: 12px;
-            border-radius: 8px;
+            font-size: 11px;
+            border-radius: 6px;
             cursor: pointer;
             text-align: center;
             font-weight: bold;
             color: #fff;
         }
-        .like-btn { color: #ff7675; border-color: rgba(255,118,117,0.3); }
-        .like-btn:active { background: rgba(255,118,117,0.2); }
-        .action-download-btn { color: #00cec9; border-color: rgba(0,206,201,0.3); }
-        .action-download-btn:active { background: rgba(0,206,201,0.2); }
+        .like-btn { color: #ff7675; border-color: rgba(255,118,117,0.2); }
+        .like-btn:active { background: rgba(255,118,117,0.15); }
+        .action-download-btn { color: #00cec9; border-color: rgba(0,206,201,0.2); }
+        .action-download-btn:active { background: rgba(0,206,201,0.15); }
 
         /* LIGHTBOX */
         .lightbox {
@@ -319,8 +320,7 @@
 
     <div class="welcome-container">
         <img class="profile-avatar" src="https://res.cloudinary.com/donulclfh/image/upload/v1779623385/IMG_2825_y7otwi.jpg" alt="Pao & Chris">
-        
-        <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1779622666/Perro_qx9kgb.png">
+        <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1779624288/Perro-blanco_bbvsey.png" alt="Logo">
         
         <h1 id="txt-title">PAO & CHRIS</h1>
         <p class="sub-p" id="txt-subtitle">Comparte tus fotos con todos en tiempo real</p>
@@ -352,19 +352,17 @@
     </div>
 
     <script>
-        // 🔗 ENLACES DE TUS 8 FOTOS DE FONDO (Reemplázalas por tus URLs de Cloudinary)
         const BACKGROUND_IMAGES = [
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779457072/cld-sample-2.jpg",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779457072/cld-sample-4.jpg",
+            "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
+            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200",
             "https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=1200",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779457071/samples/waves.png",
+            "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1200",
             "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
             "https://images.unsplash.com/photo-1507504038482-7621c330ecff?q=80&w=1200",
             "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=1200",
             "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200"
         ];
 
-        // DICCIONARIO DE IDIOMAS AUTOMÁTICO (Español / Inglés)
         const TRANSLATIONS = {
             es: {
                 subtitle: "Comparte tus fotos con todos en tiempo real",
@@ -398,11 +396,9 @@
             }
         };
 
-        // Detectar idioma del dispositivo
         const userLang = navigator.language.startsWith('en') ? 'en' : 'es';
         const t = TRANSLATIONS[userLang];
 
-        // Aplicar textos traducidos dinámicamente
         document.getElementById('txt-subtitle').innerText = t.subtitle;
         document.getElementById('txt-box-title').innerText = t.boxTitle;
         document.getElementById('guest-name').placeholder = t.placeholder;
@@ -410,7 +406,6 @@
         document.getElementById('txt-counter-label').innerText = t.counterLabel;
         document.getElementById('txt-muro-title').innerText = t.muroTitle;
 
-        // CREDENCIALES
         const CLOUDINARY_CLOUD_NAME = "donulclfh";
         const CLOUDINARY_PRESET = "wqekwrpw";
         const SUPABASE_URL = "https://xpfchmrzvuaoxcaubkuw.supabase.co";
@@ -418,7 +413,6 @@
 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // CONFIGURAR MECANISMO INTERNO DEL CARRUSEL
         const carouselContainer = document.getElementById('carousel-container');
         BACKGROUND_IMAGES.forEach((imgUrl, index) => {
             const slide = document.createElement('div');
@@ -433,9 +427,8 @@
             slides[currentSlideIndex].classList.remove('active');
             currentSlideIndex = (currentSlideIndex + 1) % slides.length;
             slides[currentSlideIndex].classList.add('active');
-        }, 4500); // Cambio automático de fondo cada 4.5 segundos
+        }, 4500);
 
-        // INPUT DIRECTO DE ARCHIVOS
         document.getElementById('direct-file-input').addEventListener('change', async function(e) {
             const guestName = document.getElementById('guest-name').value.trim();
             const files = e.target.files;
@@ -485,7 +478,6 @@
             cargarFotos();
         });
 
-        // CARGAR Y MOSTRAR FOTOGRAFÍAS
         async function cargarFotos() {
             const mainContainer = document.getElementById('main-container');
             mainContainer.innerHTML = t.loading;
