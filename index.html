@@ -6,46 +6,23 @@
     <title>📸 PAO & CHRIS Wedding Album 📸</title>
     <style>
         :root {
-    --primary: #d4a373; /* Dorado ocre / Arena tostada vintage */
-    --bg: #14171a;
-    --card-bg: rgba(255, 255, 255, 0.08); 
-    --text: #ffffff;
-}
-
-/* 📁 SECCIÓN DE MURO (Gris azulado/olivo profundo texturizado visualmente) */
-.muro-section {
-    width: 100%;
-    max-width: 900px;
-    padding: 25px 15px;
-    box-sizing: border-box;
-    background: rgba(26, 36, 33, 0.92); /* Tono verde oliva profundo / oscuro elegante */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-/* Carpetas con un velo ámbar ocre muy suave */
-.guest-folder {
-    width: 100%;
-    background: rgba(212, 163, 115, 0.08); /* Brillo ámbar vintage sutil */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border-radius: 14px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-left: 3px solid var(--primary);
-}
-.folder-title {
-    color: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-/* Tarjetas integradas con el fondo oscuro de las carpetas */
-.photo-card, .photo-info {
-    background: #222e2a;
-
+            /* Paleta playera refinada: Azul Mediterráneo y Lino de tus muestras */
+            --primary: #10507a; 
+            --bg: #111111;
+            --card-bg: rgba(255, 255, 255, 0.15); 
+            --text: #ffffff;
+        }
+        
+        body {
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
         }
 
         /* 🎆 CARRUSEL DE FONDO DINÁMICO */
@@ -125,13 +102,14 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
+        /* CAJA DE SUBIDA TRANSPARENTE VINTAGE */
         .upload-section {
-            background: var(--card-bg);
+            background: rgba(24cf, 245, 240, 0.25);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             padding: 20px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 100%;
             box-sizing: border-box;
@@ -143,16 +121,16 @@
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 10px;
             font-size: 15px;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             color: #fff;
             text-align: center;
         }
-        input[type="text"]::placeholder { color: rgba(255,255,255,0.6); }
-        input[type="text"]:focus { outline: none; border-color: var(--primary); }
+        input[type="text"]::placeholder { color: rgba(255,255,255,0.7); }
+        input[type="text"]:focus { outline: none; border-color: #1a7BB9; }
         
         .file-input-wrapper {
             position: relative;
@@ -170,7 +148,7 @@
         }
         .btn-label {
             width: 100%;
-            background-color: var(--primary);
+            background-color: #1a7BB9; /* Color azul turquesa de tu invitación */
             color: white;
             padding: 14px;
             border-radius: 10px;
@@ -179,7 +157,7 @@
             font-weight: bold;
             display: block;
             box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(230,30,108,0.4);
+            box-shadow: 0 4px 15px rgba(26,123,185,0.3);
             transition: transform 0.2s, background 0.3s;
         }
         .btn-label:active { transform: scale(0.98); }
@@ -203,45 +181,47 @@
             cursor: pointer;
         }
 
-        /* 📁 SECCIÓN DE MURO (MENOS TRANSPARENTE) */
+        /* 📁 SECCIÓN DE MURO (Fondo Claro Estilo Lino de la Imagen de Muestra) */
         .muro-section {
             width: 100%;
             max-width: 900px;
             padding: 25px 15px;
             box-sizing: border-box;
-            background: rgba(17, 17, 17, 0.50); /* Opacidad reducida para menos transparencia */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(247, 245, 238, 0.94); /* Tono marfil/lino claro elegante */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            color: #263238; /* Texto oscuro refinado */
         }
         .muro-section h2 {
-            font-size: 20px;
+            font-size: 22px;
             text-align: center;
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #10507a;
+            font-family: inherit;
         }
 
-        /* CARPETAS MUCHO MÁS SUTILES Y TRANSLÚCIDAS */
+        /* Carpetas con textura vintage ultra sutil integrada */
         .guest-folder {
             width: 100%;
-            background: rgba(247, 241, 227, 0.30); /* Tono marfil pálido con intensidad ultra baja */
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background: rgba(255, 254, 250, 0.60); /* Base limpia clara translúcida */
             border-radius: 14px;
             padding: 15px;
             margin-bottom: 20px;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 3px solid var(--primary);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary); /* Borde azul de acento */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         .folder-title {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             margin-top: 0;
             margin-bottom: 12px;
             padding-bottom: 6px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            color: var(--primary);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -256,12 +236,13 @@
             width: 100%;
         }
         .photo-card {
-            background: #222222;
+            background: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.03);
         }
         .photo-card img {
             width: 100%;
@@ -272,7 +253,7 @@
 
         .photo-info {
             padding: 6px;
-            background: #222222;
+            background: #ffffff;
         }
         .photo-actions {
             display: flex;
@@ -281,8 +262,8 @@
             gap: 6px;
         }
         .like-btn, .action-download-btn {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #f4f6f7;
+            border: 1px solid rgba(0,0,0,0.06);
             padding: 5px 0;
             flex: 1;
             font-size: 11px;
@@ -290,12 +271,11 @@
             cursor: pointer;
             text-align: center;
             font-weight: bold;
-            color: #fff;
         }
-        .like-btn { color: #ff7675; border-color: rgba(255,118,117,0.2); }
-        .like-btn:active { background: rgba(255,118,117,0.15); }
-        .action-download-btn { color: #00cec9; border-color: rgba(0,206,201,0.2); }
-        .action-download-btn:active { background: rgba(0,206,201,0.15); }
+        .like-btn { color: #ff7675; }
+        .like-btn:active { background: rgba(255,118,117,0.1); }
+        .action-download-btn { color: var(--primary); }
+        .action-download-btn:active { background: rgba(16,80,122,0.1); }
 
         /* LIGHTBOX */
         .lightbox {
@@ -378,13 +358,13 @@
     <script>
         const BACKGROUND_IMAGES = [
             "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
-            "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200",
-            "https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=1200",
-            "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=1200",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779637852/IMG_2822_lcykyb.jpg",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779638364/PHOTO-2026-05-24-17-58-38_o1htpi.jpg",
             "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
-            "https://images.unsplash.com/photo-1507504038482-7621c330ecff?q=80&w=1200",
-            "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=1200",
-            "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200"
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
+            "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779637851/IMG_2831_1_sujacd.jpg"
         ];
 
         const TRANSLATIONS = {
