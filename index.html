@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📸 PAO & CHRIS Wedding Album 📸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta playera refinada: Azul Mediterráneo y Lino de tus muestras */
-            --primary: #10507a; 
+            --primary: #10507a; /* Azul Mediterráneo */
+            --accent-gold: #b38b4d; /* Dorado Vintage para bordes y detalles */
             --bg: #111111;
-            --card-bg: rgba(255, 255, 255, 0.15); 
-            --text: #ffffff;
+            --text: #263238; /* Texto oscuro para las secciones claras */
         }
         
         body {
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Playfair Display', serif;
             background-color: var(--bg);
-            color: var(--text);
+            color: #ffffff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -90,47 +90,61 @@
         }
 
         h1 {
-            font-size: 28px;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
             font-weight: 700;
             margin: 0 0 5px 0;
             text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+            letter-spacing: 2px;
         }
         .sub-p {
-            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
             margin: 0 0 25px 0;
             opacity: 0.9;
             text-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
-        /* CAJA DE SUBIDA TRANSPARENTE VINTAGE */
+        /* 📜 CAJA DE SUBIDA ESTILO PAPEL VINTAGE PERGAMINO */
         .upload-section {
-            background: rgba(24cf, 245, 240, 0.25);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background-color: #fcf8f2;
+            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+            background-size: 4px 4px; /* Simulación sutil de textura de papel antiguo */
+            padding: 25px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 0 15px rgba(179,139,77,0.15);
             width: 100%;
             box-sizing: border-box;
             margin-bottom: 25px;
+            color: var(--text);
         }
-        .upload-section h3 { margin-top: 0; margin-bottom: 15px; font-size: 16px; font-weight: 600; }
+        
+        .upload-section h3 { 
+            font-family: 'Great Vibes', cursive;
+            margin-top: 0; 
+            margin-bottom: 15px; 
+            font-size: 36px; 
+            font-weight: 400;
+            color: var(--primary);
+        }
         
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 10px;
-            font-size: 15px;
+            margin-bottom: 18px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-style: italic;
             box-sizing: border-box;
-            background: rgba(255,255,255,0.15);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text);
             text-align: center;
         }
-        input[type="text"]::placeholder { color: rgba(255,255,255,0.7); }
-        input[type="text"]:focus { outline: none; border-color: #1a7BB9; }
+        input[type="text"]::placeholder { color: rgba(38, 50, 56, 0.5); }
+        input[type="text"]:focus { outline: none; box-shadow: 0 0 5px rgba(16,80,122,0.3); }
         
         .file-input-wrapper {
             position: relative;
@@ -148,29 +162,33 @@
         }
         .btn-label {
             width: 100%;
-            background-color: #1a7BB9; /* Color azul turquesa de tu invitación */
+            background-color: var(--primary);
             color: white;
             padding: 14px;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-style: italic;
             cursor: pointer;
             font-weight: bold;
             display: block;
             box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(26,123,185,0.3);
-            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 12px rgba(16,80,122,0.3);
+            transition: transform 0.1s, background-color 0.3s;
         }
-        .btn-label:active { transform: scale(0.98); }
+        .btn-label:active { transform: scale(0.99); }
 
+        /* CONTADOR ESTILO KULULU COMPACTO */
         .photo-counter {
-            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
             font-weight: 600;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             padding: 6px 16px;
             border-radius: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             margin-bottom: 10px;
             border: 1px solid rgba(255,255,255,0.1);
         }
@@ -181,40 +199,42 @@
             cursor: pointer;
         }
 
-        /* 📁 SECCIÓN DE MURO (Fondo Claro Estilo Lino de la Imagen de Muestra) */
+        /* 📁 SECCIÓN DE MURO CLARO */
         .muro-section {
             width: 100%;
             max-width: 900px;
             padding: 25px 15px;
             box-sizing: border-box;
-            background: rgba(247, 245, 238, 0.94); /* Tono marfil/lino claro elegante */
+            background: rgba(247, 245, 238, 0.96); /* Tono marfil/lino claro */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid rgba(0,0,0,0.05);
-            color: #263238; /* Texto oscuro refinado */
+            color: var(--text);
         }
         .muro-section h2 {
-            font-size: 22px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 42px;
             text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
-            color: #10507a;
-            font-family: inherit;
+            margin-top: 5px;
+            margin-bottom: 25px;
+            font-weight: 400;
+            color: var(--primary);
         }
 
-        /* Carpetas con textura vintage ultra sutil integrada */
+        /* Carpetas con fondo pergamino claro sutil */
         .guest-folder {
             width: 100%;
-            background: rgba(255, 254, 250, 0.60); /* Base limpia clara translúcida */
+            background: rgba(255, 254, 251, 0.70);
             border-radius: 14px;
             padding: 15px;
             margin-bottom: 20px;
             box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--primary); /* Borde azul de acento */
+            border: 1px solid rgba(179,139,77,0.2);
+            border-left: 4px solid var(--primary);
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
         .folder-title {
+            font-family: 'Montserrat', sans-serif;
             font-size: 13px;
             font-weight: 700;
             margin-top: 0;
@@ -326,7 +346,7 @@
         <img class="profile-avatar" src="https://res.cloudinary.com/donulclfh/image/upload/v1779623385/IMG_2825_y7otwi.jpg" alt="Pao & Chris">
         <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1779624288/Perro-blanco_bbvsey.png" alt="Logo">
         
-        <h1 id="txt-title">PAO & CHRIS</h1>
+        <h1>PAO & CHRIS</h1>
         <p class="sub-p" id="txt-subtitle">Comparte tus fotos con todos en tiempo real</p>
 
         <div class="upload-section">
@@ -358,11 +378,11 @@
     <script>
         const BACKGROUND_IMAGES = [
             "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779637852/IMG_2822_lcykyb.jpg",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779638981/IMG_2826_yjxck9.jpg",
             "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
             "https://res.cloudinary.com/donulclfh/image/upload/v1779638364/PHOTO-2026-05-24-17-58-38_o1htpi.jpg",
-            "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779637852/IMG_2822_lcykyb.jpg",
+            "https://res.cloudinary.com/donulclfh/image/upload/v1779637851/631C572E-C72D-4428-84CC-489B8C397EFA_cvda2l.jpg",
             "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200",
             "https://res.cloudinary.com/donulclfh/image/upload/v1779637851/IMG_2831_1_sujacd.jpg"
         ];
@@ -372,7 +392,7 @@
                 subtitle: "Comparte tus fotos con todos en tiempo real",
                 boxTitle: "Subir Fotos",
                 placeholder: "Escribe tu nombre aquí...",
-                btnLabel: "📷 Tomar / Seleccionar Fotos",
+                btnLabel: "Seleccionar Fotos",
                 counterLabel: "fotos compartidas",
                 muroTitle: "Muro de Recuerdos",
                 loading: "Cargando galería organizada...",
@@ -387,7 +407,7 @@
                 subtitle: "Share your photos with everyone in real time",
                 boxTitle: "Upload Photos",
                 placeholder: "Write your name here...",
-                btnLabel: "📷 Take / Select Photos",
+                btnLabel: "Select Photos",
                 counterLabel: "photos shared",
                 muroTitle: "Memory Wall",
                 loading: "Loading organized gallery...",
