@@ -6,74 +6,46 @@
     <title>📸 PAO & CHRIS Wedding Album 📸</title>
     <style>
         :root {
-    --primary: #1e6091; /* Azul profundo mediterráneo para botones */
-    --bg: #f4f7f6; /* Fondo base claro arena */
-    --card-bg: rgba(255, 255, 255, 0.90); /* Caja de subida blanca y sólida */
-    --text: #2b2d42; /* Texto oscuro elegante */
+    --primary: #d4a373; /* Dorado ocre / Arena tostada vintage */
+    --bg: #14171a;
+    --card-bg: rgba(255, 255, 255, 0.08); 
+    --text: #ffffff;
 }
 
-body {
-    font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-}
-
-/* Modifica el input de texto para que se lea en fondo claro */
-input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 10px;
-    font-size: 15px;
-    box-sizing: border-box;
-    background: rgba(0,0,0,0.03);
-    color: #2b2d42;
-    text-align: center;
-}
-input[type="text"]::placeholder { color: rgba(0,0,0,0.4); }
-
-/* 📁 SECCIÓN DE MURO (Fondo marfil/arena claro sutilmente translúcido) */
+/* 📁 SECCIÓN DE MURO (Gris azulado/olivo profundo texturizado visualmente) */
 .muro-section {
     width: 100%;
     max-width: 900px;
     padding: 25px 15px;
     box-sizing: border-box;
-    background: rgba(24df, 245, 240, 0.94); /* Tono lino/marfil claro elegante con menos transparencia */
+    background: rgba(26, 36, 33, 0.92); /* Tono verde oliva profundo / oscuro elegante */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(0,0,0,0.05);
-    color: #2b2d42;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
-.muro-section h2 { color: #2b2d42; }
 
-/* Carpetas con reflejo azul cerúleo muy sutil */
+/* Carpetas con un velo ámbar ocre muy suave */
 .guest-folder {
     width: 100%;
-    background: rgba(30, 96, 145, 0.05); /* Reflejo azul sutilísimo */
+    background: rgba(212, 163, 115, 0.08); /* Brillo ámbar vintage sutil */
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 14px;
     padding: 15px;
     margin-bottom: 20px;
     box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-left: 3px solid #ffb703; /* Detalle amarillo limón vintage en el borde izquierdo */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--primary);
 }
 .folder-title {
-    color: #1e6091 !important;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Tarjetas de fotos en color blanco para limpieza visual */
+/* Tarjetas integradas con el fondo oscuro de las carpetas */
 .photo-card, .photo-info {
-    background: #ffffff;
+    background: #222e2a;
+
         }
 
         /* 🎆 CARRUSEL DE FONDO DINÁMICO */
