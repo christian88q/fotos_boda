@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #10507a; /* Azul Mediterráneo */
-            --accent-gold: #b38b4d; /* Dorado Vintage para bordes y detalles */
+            --primary: #10507a;
+            --accent-gold: #b38b4d;
             --bg: #111111;
-            --text: #263238; /* Texto oscuro para las secciones claras */
+            --text: #263238;
         }
-                
+
         body {
             font-family: 'Playfair Display', serif;
             background-color: var(--bg);
@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* 🎆 CARRUSEL DE FONDO DINÁMICO */
         .bg-carousel {
             position: fixed;
             top: 0;
@@ -58,7 +57,6 @@
             z-index: -1;
         }
 
-        /* 📱 PANTALLA PRINCIPAL DE BIENVENIDA */
         .welcome-container {
             min-height: 100vh;
             width: 100%;
@@ -105,7 +103,6 @@
             text-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
 
-        /* 📜 CAJA DE SUBIDA ESTILO PAPEL VINTAGE PERGAMINO */
         .upload-section {
             background-color: #fcf8f2;
             background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
@@ -119,7 +116,7 @@
             margin-bottom: 25px;
             color: var(--text);
         }
-                
+
         .upload-section h3 { 
             font-family: 'Great Vibes', cursive;
             margin-top: 0; 
@@ -128,7 +125,7 @@
             font-weight: 400;
             color: var(--primary);
         }
-                
+
         input[type="text"] {
             width: 100%;
             padding: 12px;
@@ -145,7 +142,7 @@
         }
         input[type="text"]::placeholder { color: rgba(38, 50, 56, 0.5); }
         input[type="text"]:focus { outline: none; box-shadow: 0 0 5px rgba(16,80,122,0.3); }
-                
+
         .file-input-wrapper {
             position: relative;
             overflow: hidden;
@@ -178,7 +175,6 @@
         }
         .btn-label:active { transform: scale(0.99); }
 
-        /* CONTADOR ESTILO KULULU COMPACTO */
         .photo-counter {
             font-family: 'Montserrat', sans-serif;
             font-size: 13px;
@@ -199,7 +195,6 @@
             cursor: pointer;
         }
 
-        /* 📁 SECCIÓN DE MURO CLARO */
         .muro-section {
             width: 100%;
             max-width: 900px;
@@ -221,7 +216,6 @@
             color: var(--primary);
         }
 
-        /* Carpetas con fondo pergamino claro sutil */
         .guest-folder {
             width: 100%;
             background: rgba(255, 254, 251, 0.70);
@@ -298,7 +292,6 @@
         .action-download-btn { color: var(--primary); }
         .action-download-btn:active { background: rgba(16,80,122,0.1); }
 
-        /* LIGHTBOX */
         .lightbox {
             display: none;
             position: fixed;
@@ -344,7 +337,7 @@
     <div class="bg-overlay"></div>
 
     <div class="welcome-container">
-        <img class="profile-avatar" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518326/IMG_2825_n22k4r.jpg" alt="Pao & Chris" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=300'">
+        <img class="profile-avatar" src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=300" alt="Pao & Chris">
         <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518962/Perro-blanco_otaloh.png" alt="Logo" onerror="this.style.display='none'">
         
         <h1>PAO & CHRIS</h1>
@@ -379,10 +372,6 @@
     <script>
         const BACKGROUND_IMAGES = [
             "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779637851/IMG_2831_1_sujacd.jpg",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779638364/PHOTO-2026-05-24-17-58-38_o1htpi.jpg",
-            "https://res.cloudinary.com/donulclfh/image/upload/v1779640432/Gemini_Generated_Image_kwj90ekwj90ekwj9_lt7btl.png",
             "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200"
         ];
 
@@ -485,12 +474,7 @@
                     });
                     const data = await response.json();
                     if (data.secure_url) {
-                        // Garantiza formato jpg compatible para web
-                        let urlOptimizada = data.secure_url;
-                        if (urlOptimizada.includes('/upload/')) {
-                            urlOptimizada = urlOptimizada.replace('/upload/', '/upload/f_jpg,q_auto/');
-                        }
-                        fotosSubidas.push({ nombre_invitado: guestName, url_foto: urlOptimizada });
+                        fotosSubidas.push({ nombre_invitado: guestName, url_foto: data.secure_url });
                     }
                 } catch (err) {
                     console.error("Error al subir a Cloudinary:", err);
@@ -518,6 +502,7 @@
                 .order('created_at', { ascending: false });
 
             if (error) {
+                console.error("Error Supabase:", error);
                 mainContainer.innerHTML = t.errorDb;
                 return;
             }
@@ -535,14 +520,7 @@
             fotos.forEach(foto => {
                 const autor = foto.nombre_invitado || "Invitado Anónimo";
                 if (!fotosAgrupadas[autor]) fotosAgrupadas[autor] = [];
-                
-                // Formatear url si viene de Cloudinary para asegurar que sea imagen
-                let srcUrl = foto.url_foto;
-                if (srcUrl && srcUrl.includes('/upload/') && !srcUrl.includes('f_jpg')) {
-                    srcUrl = srcUrl.replace('/upload/', '/upload/f_jpg,q_auto/');
-                }
-                
-                fotosAgrupadas[autor].push({ ...foto, url_foto_opt: srcUrl });
+                fotosAgrupadas[autor].push(foto);
             });
 
             for (const invitado in fotosAgrupadas) {
@@ -561,10 +539,10 @@
                     const card = document.createElement('div');
                     card.className = 'photo-card';
                     const numLikes = foto.likes || 0;
-                    const imgDisplayUrl = foto.url_foto_opt || foto.url_foto;
+                    const imgDisplayUrl = foto.url_foto;
                     
                     card.innerHTML = `
-                        <img src="${imgDisplayUrl}" alt="Foto de ${invitado}" onclick="verImagenGrande('${imgDisplayUrl}')" loading="lazy">
+                        <img src="${imgDisplayUrl}" alt="Foto de ${invitado}" onclick="verImagenGrande('${imgDisplayUrl}')" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=300'">
                         <div class="photo-info">
                             <div class="photo-actions">
                                 <button class="like-btn" id="like-btn-${foto.id}" onclick="darLike(${foto.id}, ${numLikes})">❤️ ${numLikes}</button>
