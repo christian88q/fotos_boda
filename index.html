@@ -12,7 +12,7 @@
             --bg: #111111;
             --text: #263238; /* Texto oscuro para las secciones claras */
         }
-        
+                
         body {
             font-family: 'Playfair Display', serif;
             background-color: var(--bg);
@@ -109,7 +109,7 @@
         .upload-section {
             background-color: #fcf8f2;
             background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
-            background-size: 4px 4px; /* Simulación sutil de textura de papel antiguo */
+            background-size: 4px 4px;
             padding: 25px 20px;
             border-radius: 16px;
             border: 1px solid var(--accent-gold);
@@ -119,7 +119,7 @@
             margin-bottom: 25px;
             color: var(--text);
         }
-        
+                
         .upload-section h3 { 
             font-family: 'Great Vibes', cursive;
             margin-top: 0; 
@@ -128,7 +128,7 @@
             font-weight: 400;
             color: var(--primary);
         }
-        
+                
         input[type="text"] {
             width: 100%;
             padding: 12px;
@@ -145,7 +145,7 @@
         }
         input[type="text"]::placeholder { color: rgba(38, 50, 56, 0.5); }
         input[type="text"]:focus { outline: none; box-shadow: 0 0 5px rgba(16,80,122,0.3); }
-        
+                
         .file-input-wrapper {
             position: relative;
             overflow: hidden;
@@ -205,7 +205,7 @@
             max-width: 900px;
             padding: 25px 15px;
             box-sizing: border-box;
-            background: rgba(247, 245, 238, 0.96); /* Tono marfil/lino claro */
+            background: rgba(247, 245, 238, 0.96);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid rgba(0,0,0,0.05);
@@ -343,8 +343,8 @@
     <div class="bg-overlay"></div>
 
     <div class="welcome-container">
-        <img class="profile-avatar" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518326/IMG_2825_n22k4r.jpg" alt="Pao & Chris">
-        <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518962/Perro-blanco_otaloh.png" alt="Logo">
+        <img class="profile-avatar" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518326/IMG_2825_n22k4r.jpg" alt="Pao & Chris" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=300'">
+        <img class="mini-logo" src="https://res.cloudinary.com/donulclfh/image/upload/v1783518962/Perro-blanco_otaloh.png" alt="Logo" onerror="this.style.display='none'">
         
         <h1>PAO & CHRIS</h1>
         <p class="sub-p" id="txt-subtitle">Comparte tus fotos con todos en tiempo real</p>
@@ -382,7 +382,7 @@
             "https://res.cloudinary.com/donulclfh/image/upload/v1779522585/hm1fivoz07tp2s1qnbzu.jpg",
             "https://res.cloudinary.com/donulclfh/image/upload/v1779638364/PHOTO-2026-05-24-17-58-38_o1htpi.jpg",
             "https://res.cloudinary.com/donulclfh/image/upload/v1779640432/Gemini_Generated_Image_kwj90ekwj90ekwj9_lt7btl.png",
-            "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200",
+            "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200"
         ];
 
         const TRANSLATIONS = {
@@ -445,11 +445,13 @@
 
         let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.bg-slide');
-        setInterval(() => {
-            slides[currentSlideIndex].classList.remove('active');
-            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-            slides[currentSlideIndex].classList.add('active');
-        }, 4500);
+        if (slides.length > 0) {
+            setInterval(() => {
+                slides[currentSlideIndex].classList.remove('active');
+                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+                slides[currentSlideIndex].classList.add('active');
+            }, 4500);
+        }
 
         document.getElementById('direct-file-input').addEventListener('change', async function(e) {
             const guestName = document.getElementById('guest-name').value.trim();
@@ -482,10 +484,12 @@
                     });
                     const data = await response.json();
                     if (data.secure_url) {
-                        fotosSubidas.push({ nombre_invitado: guestName, url_foto: data.secure_url });
+                        // Optimización e incompatibilidad de formatos (por ejemplo HEIC de iPhones)
+                        const urlOptimizada = data.secure_url.replace('/upload/', '/upload/f_auto,q_auto/');
+                        fotosSubidas.push({ nombre_invitado: guestName, url_foto: urlOptimizada });
                     }
                 } catch (err) {
-                    console.error(err);
+                    console.error("Error al subir a Cloudinary:", err);
                 }
             }
 
@@ -514,9 +518,9 @@
                 return;
             }
 
-            document.getElementById('total-counter').innerText = fotos.length;
+            document.getElementById('total-counter').innerText = fotos ? fotos.length : 0;
 
-            if(fotos.length === 0) {
+            if (!fotos || fotos.length === 0) {
                 mainContainer.innerHTML = t.noPhotos;
                 return;
             }
@@ -533,7 +537,7 @@
             for (const invitado in fotosAgrupadas) {
                 const folderDiv = document.createElement('div');
                 folderDiv.className = 'guest-folder';
-                
+                                
                 folderDiv.innerHTML = `
                     <div class="folder-title">📂 ${t.folderTxt} ${invitado} (${fotosAgrupadas[invitado].length})</div>
                     <div class="gallery"></div>
@@ -541,15 +545,16 @@
                 mainContainer.appendChild(folderDiv);
 
                 const galleryDiv = folderDiv.querySelector('.gallery');
-                
+                                
                 fotosAgrupadas[invitado].forEach(foto => {
                     const card = document.createElement('div');
                     card.className = 'photo-card';
+                    const numLikes = foto.likes || 0;
                     card.innerHTML = `
-                        <img src="${foto.url_foto}" alt="Foto" onclick="verImagenGrande('${foto.url_foto}')">
+                        <img src="${foto.url_foto}" alt="Foto de ${invitado}" onclick="verImagenGrande('${foto.url_foto}')" onerror="this.parentElement.style.display='none'">
                         <div class="photo-info">
                             <div class="photo-actions">
-                                <button class="like-btn" id="like-btn-${foto.id}" onclick="darLike(${foto.id}, ${foto.likes})">❤️ ${foto.likes}</button>
+                                <button class="like-btn" id="like-btn-${foto.id}" onclick="darLike(${foto.id}, ${numLikes})">❤️ ${numLikes}</button>
                                 <button class="action-download-btn" onclick="descargarFotoDirecta('${foto.url_foto}', 'foto_${invitado}')">📥</button>
                             </div>
                         </div>
